@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google';
 import { SiteFooter } from '@/app/components/SiteFooter';
 import { SiteHeader } from '@/app/components/SiteHeader';
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main className='flex-1'>{children}</main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
