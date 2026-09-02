@@ -11,7 +11,7 @@ type PostPageProps = {
 };
 
 export function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = getAllPosts({ includeDrafts: true });
   return posts.map(function toParams(post) {
     return { slug: post.slug };
   });
@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   return {
     title: post.title,
     description: post.description || post.title,
+    robots: post.draft ? { index: false, follow: false } : undefined,
     openGraph: {
       title: post.title,
       description: post.description || post.title,
@@ -61,6 +62,7 @@ export default async function PostPage({ params }: PostPageProps) {
       </p>
       <h1 className='mt-4 font-display text-4xl tracking-tight text-ink'>{post.title}</h1>
       <p className='mt-3 text-sm text-muted'>
+        {post.draft ? 'Draft · ' : ''}
         {formatPostDate(post.date)} · {post.readingTime} min read
       </p>
       {post.tags.length > 0 ? (

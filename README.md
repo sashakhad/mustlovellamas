@@ -33,7 +33,7 @@ description: "Shown on the index and in RSS."
 ---
 ```
 
-Set `draft: true` to keep a file out of the index.
+Set `draft: true` to keep a file out of the index, RSS, and sitemap. The slug still opens.
 
 ## Photos
 

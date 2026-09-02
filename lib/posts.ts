@@ -13,6 +13,7 @@ export type PostMeta = {
   description: string;
   readingTime: number;
   filePath: string;
+  draft: boolean;
 };
 
 export type Post = PostMeta & {
@@ -86,20 +87,22 @@ function toPostMeta(filePath: string, data: Record<string, unknown>, content: st
     description,
     readingTime: calculateReadingTime(countWords(content)),
     filePath,
+    draft: data.draft === true,
   };
 }
 
-export function getAllPosts(): PostMeta[] {
+export function getAllPosts(options?: { includeDrafts?: boolean }): PostMeta[] {
   const allFiles = collectMdxFiles(postsDirectory);
   const posts: PostMeta[] = [];
 
   for (const filePath of allFiles) {
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const matterResult = matter(fileContents);
-    if (matterResult.data.draft === true) {
+    const meta = toPostMeta(filePath, matterResult.data, matterResult.content);
+    if (meta.draft && options?.includeDrafts !== true) {
       continue;
     }
-    posts.push(toPostMeta(filePath, matterResult.data, matterResult.content));
+    posts.push(meta);
   }
 
   posts.sort(function compareByDate(a, b) {
@@ -132,7 +135,7 @@ export function groupPostsByMonth(posts: PostMeta[]): GroupedPosts {
 }
 
 export function getPostBySlug(slug: string): Post | null {
-  const posts = getAllPosts();
+  const posts = getAllPosts({ includeDrafts: true });
   const meta = posts.find(function matchSlug(post) {
     return post.slug === slug;
   });

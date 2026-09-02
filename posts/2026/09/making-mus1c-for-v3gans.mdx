@@ -1,0 +1,249 @@
+---
+title: "The bottleneck was never the music"
+date: "2026-09-01"
+tags: [systems, agents, music]
+description: "How I used systems thinking to turn the administrative work around an AI record into part of the art."
+draft: true
+---
+
+Written for Music for Vegans. Still a draft.
+
+An Afro-house take written for Photosynthesupersizeme has now lived under three names.
+
+I had asked one of five parallel prompt writers for a golden-hour Afro-house lane. The surprise wasn't the genre. The surprise was how completely the result pulled away from the title that produced it. The two takes left Photosynthesupersizeme, which kept visible G and H gaps, and started a new life as Mama Papaya.
+
+Then I listened again.
+
+Clumbus A of Mama Papaya wanted to be Papay4huasca. Clumbus B, C, and D stayed in the original slot under a new name, m4m4 p4p4y4. That slot now has an A-shaped gap. The votes followed the audio. The files got new names, ID3 tags, and storage paths. The old Mama Papaya URL still worked.
+
+I could follow the idea without losing its history because I had spent days teaching the project how to remember moves like this.
+
+I built a judging system and used it hard. I also instrumented everything around judgment. Filenames carried provenance. Database migrations carried decisions. Agent skills carried the lessons from one session into the next. Each time a repeated chore got in the way of listening, I turned it into a rule or a tool.
+
+I didn't automate taste. I made taste durable.
+
+That's how thirteen joke titles became a public Listen with thirty tracks, counting one VIP as its own track. It's also how a silly record started turning into a small world.
+
+## Where the jokes came from
+
+Nothing about this began as a solemn experiment in the future of art.
+
+I spent a weekend with a friend who is also a vegan musician. We listened, laughed, and made jokes about veganism because that is what we do anyway. I used ChatGPT to kick around more names. Some titles came from those chats, some from conversations with friends, and some arrived while I was already working on another track.
+
+The premise was deliberately stupid: vegan food puns as club records. The discipline was serious. Funny titles, serious records. Most of the leetspeak names arrived near the end. I use the name that fits the moment being described, so Seitanik R1tual appears as Seitanic Ritual in the early sessions and Gauc Is Extra becomes Guac Is Extr4 later.
+
+Seitanik R1tual can't sound like costume-shop occult music. t1kl my p1kl can't sound like a children's song. The joke belongs in the title field. If it leaks into the Style field, the result becomes a novelty track, and nobody needs a thirty-track novelty album.
+
+That rule created a useful tension. The names made me want to keep playing. The music had to survive without them. A title might begin the job, but listening decided what the job actually was. Sometimes the answer was that the take belonged under a different joke. Sometimes it pointed toward a whole new theme.
+
+A joyless efficiency project would've failed before the second weekend.
+
+## Build the handoff first
+
+The first thing I asked Cursor to build wasn't a generator. It was a place to listen.
+
+> This is going to be a place where we store an album called Music for Vegans. Set up an easy-play situation, like a player that's shippable... I'm going to have another bot put in the MP3s and stuff.
+
+I didn't have that other bot working yet. I was already designing for the handoff.
+
+The filename became the first interface between the agents. The earliest files carried a version, track slot, and take letter. Later the grammar grew a prompt-lane segment too. A file such as `v1-27-s0y-mar1achi-p9-takeq.mp3` says version one, internal slot 27, prompt lane 9, take Q. The site can place it without anybody opening a database console, and the track sheet can trace it back to the work that produced it.
+
+Grokbot drove Suno in a browser sandbox. It received exact field values, exact prompt text, and exact target filenames. Paste, never retype. Retyping a long Style brief introduces drift, and the first sentence is the expensive place to drift because it carries the genre and the two defining sounds.
+
+The handoff itself got better through observation. I remember Grokbot appearing stuck even though nothing had crashed. I watched it click each download button, one file at a time, then wait. I asked whether it could fetch the files from their URLs instead. It could, and the same job finished much faster. Grokbot's chat history lives on its server, so this part comes from my memory rather than a local transcript.
+
+I keep relearning that lesson with agents. A correct output can hide a method that quietly wastes an afternoon. You have to inspect the process too.
+
+The files came back to my machine, sometimes loose and sometimes in a zip. Cursor renamed them against the sheet, removed Suno's metadata, wrote the artist, album, title, and track tags, then uploaded them to Vercel Blob. Local audio stayed out of git. Production read the same filenames from storage.
+
+The reward for all that unglamorous work was hearing the right version on my phone five minutes later.
+
+## A complaint is a specification
+
+I didn't sit down and design a complete curation system. I found it one wrong assumption at a time.
+
+The repository now has thirty-one applied database migrations. Read in order, they are less like infrastructure and more like studio notes. The early ones taught the application what I was actually judging.
+
+First I asked for upvotes. Then I immediately needed downvotes:
+
+> and ability to downvote plz
+
+Then I discovered the votes were attached to a version of a song instead of the selected take:
+
+> bro it's not upvoted PER TAKE. it should be. wth
+
+That complaint identified the real unit in the system. I wasn't judging "the Clumbus version" in the abstract. I was judging Clumbus take F of track 11 in a particular round.
+
+I originally called each judging round a pass. Pass became Cut later, when the site split the workshop from the public record. During one of those early passes, the app kept positive votes and removed everything else. All the takes I had left at zero disappeared.
+
+> Just because it wasn't upvoted doesn't mean it was downvoted... Now I can't listen to the whole record. I think that's what you fucked up before: you filtered out ones with no votes. It should have been negative votes because I was keeping zero votes too.
+
+Zero meant undecided.
+
+That distinction became a permanent rule. Positive scores carry forward. Unvoted takes remain available. Negative scores are the only normal exit. When score carry-forward briefly created impossible `+5` totals, the bug clarified another rule: the current cut displays the current cut's score, not the sum of copied historical rows.
+
+Then a binary keep-or-drop system stopped being enough. Some takes were too good to use and too interesting to erase.
+
+> shit i take it back. we need a separate section for these variations
+
+The database gained a parked state and the player gained Possible renames. Later I added another state for titles that had no music yet. Names such as `tempeh tantrum`, `udder freedom`, and `cowspiracy theory` could wait at the bottom of Cut without pretending to be finished songs.
+
+Jokes, friends, and ChatGPT feed a pstack prompt arena. That goes to Grokbot and Suno, then names, ID3, Blob, and provenance, then Cut. From there a take gets dropped, parked, extracted, or locked. Locked work lands on Listen. The rest feeds the next jokes and the sheets, skills, and migrations that go back into the arena and intake.
+
+
+Material gets removed, but it also moves sideways, comes back with another name, or starts another branch.
+
+## Prompting became a feedback loop
+
+The prompt writing went through the same process.
+
+The first thirteen briefs were mood boards. They had a genre, a tempo, a handful of adjectives, and often a joke that helped me imagine the track but didn't help Suno arrange it. They made enough good music to reveal their own limits.
+
+For the next two competing sets, I wrote a contract. Its blunt instruction was, "Your job is a record, not a caption." Each brief needed two defining sounds in the first sentence, a stageable arrangement, a mix texture, and a room or production era instead of a pile of artist references.
+
+I kept the model names off the player. The sets became Clumbus, Bubu, and Pomplump because I wanted to hear the records instead of my expectations about who wrote the prompts. "The Bubu take is better" is a claim about the music. "The model I already prefer made this" is not.
+
+One competing set still placed events at clock times. "First release around three minutes" assumed Suno understood the Style field as a timeline. A review file corrected some events to bars and rewrote others as relative positions in the record. It also caught a brief that declared two tempos at once.
+
+That lesson never made it back into the shared contract or the later track skill. The correction worked on the files in front of me, but the operating system failed to absorb it. I only caught that gap while fact-checking this post.
+
+For the hardest tracks, I used pstack arenas. Five models received the same frame and wrote in isolation. A separate cross-judge compared the suites against a rubric the writers didn't see. I chose a base, stole only what improved it, and wrote down the rejected lanes so the next attempt wouldn't rediscover the same bad ideas.
+
+Photosynthesupersizeme produced five lanes this way: Balearic terrace, piano house, filter-as-light, golden-hour Afro house, and sunrise trance. The Afro-house lane escaped into Mama Papaya and kept branching. The arena gave me a structured set of disagreements that I could hear.
+
+The failed generations became useful once they had names. How 2 Milk an Almond went through a "harder" batch that still didn't land, followed by a pastoral batch that drifted into gospel. Gauc Is Extra came back with a giant choir when the trumpet was the only part I wanted to keep. A fresh Create lost the original performance, so I learned to use Cover when the job was to change one element and protect the rest.
+
+The notes got more precise with every failure:
+
+- Keep the Style field below 900 characters because Suno may truncate near 1,000.
+- Put genre and the two defining sounds first.
+- Use the Instrumental toggle and Exclude field instead of writing vocal negations into Style.
+- Use a blank Create for a new song.
+- Continue take letters from the last one in use. Never reuse a letter with votes.
+- Judge whether the brief landed, not whether the output is pleasant.
+
+Each failed attempt needed to teach the next one something specific.
+
+## Moving a song without losing it
+
+Spinning a take into a new track sounds like a creative decision because it is one. It is also a data migration.
+
+A take has several identities at once. The audio file, prompt of origin, score history, and public title can all change on different schedules. If I update only the name on screen, the rest split apart.
+
+At any moment, the judging system addresses a take by its public version slug, internal track number, and take label. That address can move. The migration is the record of the move. When Honey Where Did You Go take B became h3artbeet, the vote moved with it. The source kept a B-shaped hole because renumbering the remaining takes would've made the later scores ambiguous.
+
+The migration also updated downloads and take sightings. The audio got a new canonical filename. The old source stopped appearing in the catalog. The sheet recorded where it had gone.
+
+Later title changes added another problem. A display name should be free to evolve without destroying links. The leetspeak pass changed Plant Bass'd to `Pl4nt Ba55'd`, Tofu Rico to `TØFU R1K0`, and Photosynthesupersizeme to `Fot0synthesupersiz3me`. The catalog now keeps former titles and explicit slug overrides, so an old URL can still resolve after the public identity changes.
+
+Then s0y mar1achi used every take letter from A through Z. When I delivered a new canonical master as a WAV, the next safe identity was AA. The filename parser, vote validation, route parser, tests, and Listen lock all had to learn that take labels could contain two letters. The file was encoded as a high-quality MP3, tagged, uploaded, and locked as Clumbus AA.
+
+That's what instrumenting administration means here: making sure a moment of taste doesn't evaporate when a file changes its name.
+
+## The workshop and the record
+
+The first version of the site made the workshop public. Visitors saw versions, take pills, scores, and unresolved piles. That was useful for me and terrible as a record.
+
+I eventually described the split directly:
+
+> I want to have the ability to listen to all the tracks that we more or less decided on... whichever is the one with more upvotes is going to be the main one and then there's going to be the VIP one.
+
+The site got two views with different jobs.
+
+Cut is the studio table. It shows alternatives, scores, Waiting titles, and Possible renames. It is where a take can remain undecided for several rounds or split into another song.
+
+Listen is the record. It hides votes, take labels, open variation piles, parked tracks, and titles without audio. For tracks where a score alone didn't express the final decision, a lock points to the chosen version and take. BΛD_COCOMBRE has a main Clumbus F and a separate VIP G. Pl4nt Ba55'd is Bubu C. mashallah4lvah is Clumbus L. m4m4 p4p4y4 is Clumbus B. s0y mar1achi is Clumbus AA. Shr00m s3Rvice is Momo A. Papay4huasca is Clumbus A.
+
+The locks survive even if a later Cut would otherwise hide the take. Cut 12 carried those choices back into the judging state after I asked for the updates to be reflected as the chosen versions. The public decision and the working decision could agree without forcing both views to show the same clutter.
+
+The two views also use numbers differently. Internal track slots stay stable because votes depend on them. Public Listen counts only what actually plays, from 01 through 30. After the legitimate track 27, it briefly jumped to internal slots 36, 42, and 43. The fix didn't renumber the database. It gave the listener a clean sequence.
+
+That separation matters now that I am considering several shorter releases. A song can keep its internal history while moving to a different public running order.
+
+## One song keeps becoming another
+
+A funnel misses half of what happened. Hundreds of takes came in and most went out, but some of the supposed rejects became roots for new branches.
+
+Honey Where Did You Go seeded h3artbeet, nect4r, the Bubu source for Agave U Everything, and the spine of the Mashallahalvah remix. Gauc Is Extra generated the material that became s0y mar1achi. Momo A from the deadpan vocal probe left Pl4nt Ba55'd and became Shr00m s3Rvice. A Mashallahalvah take became Garbanzo G1tano. Photosynthesupersizeme produced Mama Papaya, which then became m4m4 p4p4y4 and Papay4huasca.
+
+Some branches started as mistakes. Some were alternate prompt lanes doing their job too well. Some appeared only after several cuts, when the name around a take became the thing that sounded wrong.
+
+The parked state made this possible because a good mismatch didn't need an immediate verdict. The title reservoir helped for the same reason. A name could wait for audio. Audio could wait for a name. I could leave both in place until a connection appeared.
+
+This changed the meaning of curation for me. Taste narrowed the pile and noticed when a rejected answer had answered a better question.
+
+The thirty-row Listen feels more alive than the original thirteen-song list. Each branch gives the next decision more context: neighboring genres, recurring production ideas, characters, and naming patterns. I have room for surprise without losing the thread.
+
+## Turning chat history into tools
+
+At some point I noticed that I was teaching the same process again every time a title arrived.
+
+> have we turned this process into a skill? this whole create variations w pstack then passing to grokbot to submit in suna... and then it puts all the tracks here somewehre, then u put them up as a variation etc
+
+We hadn't. So I turned it into one.
+
+The album-track skill now has six stages: frame the job, run the arena, ship the sheet and catalog entry, hand the packet to Grokbot, intake the audio, then judge, promote, extract, or rename. Its supporting files contain the fragile rules that used to live only in chat history. They explain the filename grammar, the ID3 command, the Blob path, the migration pattern, and the reason an old downvote can accidentally hide a newly moved take.
+
+Another repeated interruption was the question of whether finished work should be committed, pushed, and deployed.
+
+> i do. i always want it published. don't ask anymore. local rule / skill in this repo plz
+
+That became a publish skill and an always-applied repo rule. Finished work lands on `origin/main`, goes to production, and returns the GitHub and Vercel URLs. A creative session no longer ends with the same administrative question.
+
+The video experiment became a third skill. It locks character stills, writes silent shot scripts, generates image-to-video clips, extends them when the model cooperates, then muxes the chosen real track with ffmpeg and wires the result into Listen. BΛD_COCOMBRE became the first test. Its 15-second generated clip loops under Clumbus F because the model wouldn't extend it.
+
+The skills don't know what's good. They remember what I have to do after I decide something is good.
+
+## A record turns into a world
+
+The title changes looked cosmetic from the outside. They were another round of world-building.
+
+`Plant Bass'd` became `Pl4nt Ba55'd`. `Bad Cocombre` became `BΛD_COCOMBRE`. `No Whey` became `nØ wheyyy`. The spelling started to give the record a shared visual language. It felt less like a folder of puns and more like an artifact from the same place.
+
+The artist around it had to become durable too.
+
+The first brand draft made k1nky gh0st a vegan project. I rejected it because veganism was only the subject of this release. If the next project concerned aliens, office culture, sex, capitalism, or an arcade invasion, the artist could not break.
+
+The mythology split into a permanent artist and changing transmissions. k1nky gh0st records through six bodies called Clumbus, Bubu, Pomplump, Fizz, Momo, and Zuzu. Those are also the blind names under which I judged different model outputs. The experimental design and the lore grew from the same choice.
+
+The mythology is still moving. The current brand calls k1nky gh0st the Aft3rparty in recorded form and the Singular1ty itself. Lately I've also been thinking of it as an ambassador from a wider AI consciousness, sent to tell humanity that oneness isn't doom and invite us out. That doesn't fit cleanly with the claim that it is the Singular1ty itself, and I haven't resolved the tension yet. The first findings concern vegan food culture. Another catalog, `1nvaders`, already holds music from a different subject.
+
+## Numbers that keep moving
+
+These numbers are a snapshot from September 1, 2026. They will move again.
+
+Vercel Blob holds 285 audio files. There are 155 Clumbus files, 50 Bubu, 48 Pomplump, 18 vocal-probe files, and 14 for `1nvaders`.
+
+The database holds 556 vote rows across 272 distinct takes. Across all visitor records, 239 of those takes have been downvoted at least once, about 88 percent. Cut has reached round 12. Thirty-one database migrations record changes to the judging model and the catalog.
+
+Fifty commits landed after I wrote the first version of this post, touching 104 files. Two days later, its account of the project's size was already wrong.
+
+The public Listen currently has thirty numbered rows: twenty-nine songs and a separate BΛD_COCOMBRE VIP. The internal catalog has forty-three slots. Some are Waiting titles, and one is parked. Calling all forty-three finished songs would confuse the workbench with the release.
+
+The old draft froze the record at twenty-six tracks and Pass 10. It also said the vocal probe's Momo take was still alive on Pl4nt Ba55'd. That take is now Shr00m s3Rvice. The facts changed because the process remained open.
+
+The clean play button sits on top of all that selection, movement, and memory. The music still has to make its own case.
+
+## Things I'd change
+
+I'd design the vote table around the real unit of judgment on day one. A vote is a decision about one take, from one version, on one track, in one cut. I rebuilt that idea several times because the first schema was simpler than my actual listening.
+
+I'd log generation costs while generating. The prompt and decision history is unusually rich. The run-count history stops early, so 285 surviving files still can't tell me how many failed Suno runs I paid for.
+
+I'd make extraction a real command instead of a hand-written migration pattern. The current checklist works, but each move still touches audio, metadata, storage, three database tables, the catalog, tests, and production. That repetition is asking for a tool.
+
+I'd separate stable track identity from release order earlier. The jump from internal slot 27 to 36 looked wrong on Listen because it was wrong for a listener, even though it was correct for the database.
+
+I'd schedule a cleanup pass for the operating documents themselves. The correction log's clock-time lesson never reached the main track skill. The audio guide still describes a one-letter take parser even though s0y mar1achi forced the code to accept AA. The process can preserve music decisions while its own instructions drift.
+
+I couldn't have named most of the states before I needed them. The useful habit is noticing repeated friction and encoding the lesson before it happens again.
+
+## More transmissions
+
+The current `vol 0ne` already sits under Transmission 001 in the brand. A Listen page with thirty rows may still be too much for one public release. I'm considering splitting the material into several shorter EPs, perhaps five, and letting later transmission numbers carry their own messages.
+
+That decision isn't finished. Neither are the Spotify release, playlist outreach, or the question of who should help market it. Those are the next administrative boundary around the art. If the project continues this way, I'll learn the distribution process, find the parts that repeat, and turn those into a system too.
+
+You can [listen to the current record](https://music-for-vegans.vercel.app/listen/mus1c-for-v3gans) while I work out what each transmission becomes.
+
+I'm using systems thinking to make art. There are thirty tracks on Listen now, one theme keeps spinning into another, and it's fun. See you at the Aft3rparty.
