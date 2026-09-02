@@ -1,0 +1,49 @@
+---
+title: "Hello from Must Love LLaMas"
+date: "2026-09-01"
+tags: [meta, mdx]
+description: "A separate tech blog, MDX when I need it, and a URL I can actually send people."
+---
+
+I already have a personal blog. That one can stay messy and wide. This one is for the posts I want to hand someone and say, start here.
+
+The name is the obvious pun. Llamas, LLaMA, LLMs. I kept the doubled L so the model name is sitting inside the animal.
+
+## Why MDX
+
+Most posts will still read like Markdown. Frontmatter, headings, code fences. The extra is that I can drop a photo or a small React component in the same file without a CMS.
+
+A Markdown image works if the file is in `public/images`:
+
+```md
+![The deploy graph after the first push](/images/example.png)
+```
+
+When I want a caption separate from the alt text, or a specific size:
+
+```mdx
+<MdxImage
+  src="/images/example.png"
+  alt="Deploy graph"
+  width={1400}
+  height={900}
+  caption="The deploy graph after the first push"
+/>
+```
+
+That is the whole reason to bother with MDX. Photos and the occasional embed, without leaving the file.
+
+## How a post gets out
+
+```bash
+pnpm create
+# edit the generated .mdx
+pnpm publish
+git push
+```
+
+Vercel builds from `main`. No admin UI.
+
+## What is next
+
+A few posts I have been sitting on. This file is just the door being open.

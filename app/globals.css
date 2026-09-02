@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-paper text-ink antialiased;
+  }
+
+  body {
+    @apply min-h-screen bg-paper font-sans;
+  }
+}
+
+@layer components {
+  .prose-llama {
+    @apply max-w-none text-[1.05rem] leading-7 text-ink;
+  }
+
+  .prose-llama p {
+    @apply mb-5;
+  }
+
+  .prose-llama a {
+    @apply text-accent underline decoration-accent-soft underline-offset-2 hover:decoration-accent;
+  }
+
+  .prose-llama ul,
+  .prose-llama ol {
+    @apply mb-5 pl-6;
+  }
+
+  .prose-llama ul {
+    @apply list-disc;
+  }
+
+  .prose-llama ol {
+    @apply list-decimal;
+  }
+
+  .prose-llama li {
+    @apply mb-2;
+  }
+
+  .prose-llama blockquote {
+    @apply my-6 border-l-2 border-accent pl-4 italic text-muted;
+  }
+
+  .prose-llama :not(pre) > code {
+    @apply rounded bg-wool/70 px-1.5 py-0.5 font-mono text-[0.9em];
+  }
+
+  .prose-llama pre {
+    @apply my-6 overflow-x-auto rounded-lg bg-code p-4 text-sm text-paper;
+  }
+
+  .prose-llama pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .prose-llama h2,
+  .prose-llama h3,
+  .prose-llama h4 {
+    @apply mb-3 mt-10 font-display tracking-tight text-ink;
+  }
+
+  .prose-llama h2 {
+    @apply text-2xl;
+  }
+
+  .prose-llama h3 {
+    @apply text-xl;
+  }
+
+  .prose-llama table {
+    @apply my-6 w-full border-collapse text-sm;
+  }
+
+  .prose-llama th,
+  .prose-llama td {
+    @apply border border-wool px-3 py-2 text-left;
+  }
+
+  .prose-llama hr {
+    @apply my-10 border-wool;
+  }
+}
