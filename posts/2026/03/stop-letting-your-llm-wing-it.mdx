@@ -1,0 +1,38 @@
+---
+title: "stop letting your llm wing it"
+date: "2026-03-12"
+tags: [ai, llms, systems]
+description: "If the query already works, make the model call it. Do not let it rewrite SQL every morning."
+---
+
+First published on [Writing in Color](https://blog.sashabayan.com/posts/stop-letting-your-llm-wing-it).
+
+Imagine asking your extremely smart colleague — who happens to wake up every day not knowing what happened yesterday — to investigate a database for you.
+
+They did it yesterday. Crafted a query, looked at results, gave you answers. Today you want to check again to see what changed. So you ask them. But instead of using the work they already did, they start from scratch. New query. And here's the thing: it could be the same query, or it could be different. You might get slightly different results. Or totally different ones.
+
+That's what happens with LLMs.
+
+## what they're made for
+
+Non-deterministic systems are great at a particular set of challenges — summarizing, synthesizing, reformatting, making things accessible via plain language. They're [dragons, not machines](/posts/ride-the-dragons) — organismic, powerful, and unpredictable by nature.
+
+But should you have an LLM query a SQL database? That's where it gets interesting.
+
+LLMs can do this. They'll probably write better SQL than you can. In some cases you'll want them to. But if you've already crafted performant queries for the data you need, you don't need the LLM to reinvent that work each time. You want it to _use_ those queries as a tool.
+
+Just because you _can_ build it with AI doesn't mean you should.
+
+## drift
+
+The real danger isn't the time or token cost of redoing work — it's **drift**. Results that shift subtly over time, not because the data changed, but because the query did.
+
+That's a class of bug that's hard to catch and harder to debug. You're staring at different outputs, wondering what changed in the data — and the answer is nothing. The query just asked the question differently this time.
+
+## the old rules still apply
+
+The best practices of software development are as relevant as ever. Write reusable utilities, keep your code DRY, build testing flows to keep your app safe.
+
+These tools still require someone to pilot them. And until they're fully autonomous, make sure they're not burning cycles redoing work — and that you're not fighting drift you didn't sign up for.
+
+![image](/posts/2026/03/2026.03.12.png)

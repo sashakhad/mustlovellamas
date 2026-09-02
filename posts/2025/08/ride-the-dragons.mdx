@@ -1,0 +1,108 @@
+---
+title: "ride the dragons"
+date: "2025-08-31"
+tags: [ai, agents, workflows]
+description: "Models are not machines. Train them like animals and stay on the reins."
+---
+
+First published on [Writing in Color](https://blog.sashabayan.com/posts/ride-the-dragons).
+
+## the day the dragons arrived
+
+There’s a metaphor I keep coming back to when I think about the world before AI and after AI. It helps me hold the shift in my head — and it’s especially useful if you’re building things.
+
+Picture a medieval world. You’ve got castles to build. Machines that crank and lift. Cannons to fire at rival kingdoms. You trade, defend, scheme. It’s challenging, but legible. Tools behave like tools; war behaves like war.
+
+Then one day, the rumor becomes real: **dragons exist**.
+
+You don’t know what a dragon eats. You don’t know how it thinks. But you know it’s fast, it’s huge, it breathes fire, and it’s terrifying. It’s lizard-like, bird-like — vaguely familiar, but scaled and savage enough to change everything.
+
+The world before dragons was one thing; the world after is another. There’s no going back.
+
+You can pretend it’s a myth. You can hide in your little fiefdom and hope one never flies overhead. But wild dragons (or worse, dragons tamed by rivals) will redraw the map. The only real choice is whether you **learn to ride**.
+
+Yes, dragons are dangerous. Yes, they can burn your fields down. The call to action isn’t to run; it’s to grow the courage and craft to **saddle** them — to train them just enough that they become force multipliers instead of friendly fire.
+
+## machines vs. organisms
+
+Before dragons, you had machines. Pull the lever; the same thing happens every time. Deterministic tools. Comforting.
+
+A dragon is not a machine. It’s **organismic**. It has a mind of its own. It’s **non-deterministic**.
+
+Treat a dragon like a machine and you’ll be perpetually frustrated. “Why didn’t you do exactly what I asked?” Because it’s an animal. With dogs, you can get consistent behavior _most_ of the time with good training — but not **all** the time. Dragons are the same, just larger, faster, and with higher stakes.
+
+That means our old mental model of software — pure algorithms with identical outputs for identical inputs — isn’t dominant anymore. That was a beautiful, Platonic world: pass a number to Fibonacci; get a number back. Write tests; lock in invariants. Lovely.
+
+Now we’re in dragonland. Same prompt, slightly different outputs. Small prompt changes, big behavior changes. Problems once out of reach now get tackled — but with variability baked in.
+
+So when the dragon doesn’t do what you want, don’t scold it like a broken robot. **Train it like an animal.** Give clearer cues. Set boundaries. Build harnesses. Reward behavior. Design _procedures_, not just _programs_.
+
+## speed, wind, and the cost of context switching
+
+Riding a dragon is **fast**. Posters make it look smooth. But anyone who’s ridden a motorcycle at speed knows the truth: the wind hits. You have to brace, focus, and respect it.
+
+In practical terms: **feature velocity explodes**. You’ll travel ten towns in the time it used to take to walk to one. That creates a new failure mode — not lack of speed, but whiplash.
+
+I see a common anti-pattern in LLM workflows:  
+prompt → code editor review → tweak → run → prompt again → review again…
+
+You keep hopping on and off the dragon to check every village. It feels “safe” — but the constant dismounts sap your stamina.
+
+Every productivity classic eventually lands here: context switching is the killer. Don’t fly town-to-town; **fly a leg**. Let the agent run. Let it build the feature. Stay on its back for a while. If it starts drifting east and you need north, pull the reins and course-correct. Yes, land when needed — but optimize for _long flows_, not ping-pong.
+
+## saddles, reins, and goggles
+
+Riding well isn’t just courage; it’s equipment.
+
+For code, the “saddle and reins” are the tools that let you **ride fast without losing the beast**: editor-native copilots, background agents, smart diffs, long-running tasks, eval harnesses, test-fix cycles, conversational logs.
+
+Tools like Cursor — and cousins like bug-bots and autonomous agents — feel like the right shape: keep me in flow, let the dragon do the heavy lifting, and give me tight controls when I need to steer.
+
+You don’t tame a dragon to be slow. You **gear up** so you can ride its speed _safely_.
+
+## feed the dragon
+
+Here’s the part CFOs don’t love: **dragons are hungry**.
+
+Big models, long contexts, multi-step agents — they cost money. If you starve the dragon, it won’t fly. Use smaller dragons when appropriate. Be thoughtful. But if you want to cross oceans in an afternoon, you need to budget feed.
+
+This means shifting from **pure cost minimization** to **value acquisition**. Not “burn money,” but “spend to capture.”
+
+For example: I recently had Claude Opus 4 scaffold a dashboard that would’ve taken a week — done in a day. Yes, it needed tweaks. But the acceleration was real, and the model cost? A rounding error.
+
+These tools unlock **more** than they cost when used well. As an individual, I already spend hundreds a month experimenting with agents and bigger models. My downside is capped; my upside is multipliers in time and capability. Portfolio thinking beats perfectionism here.
+
+## the measurement trap (and why it still matters)
+
+“But how do we _prove_ the ROI?” Fair question. Hard answer.
+
+We weren’t great at measuring engineering productivity **before** dragons. Lines of code, PR counts, story points, DORA — useful _signals_, often gamed, rarely apples-to-apples. Velocity resets when people change teams. Roll-ups get fuzzy. It’s less like a Rosetta Stone and more like watching a play through frosted glass: you see shapes and movement, but you miss half the plot.
+
+Layer AI on top and the fuzziness increases. Yet the _felt_ productivity is obvious to practitioners: less time hunting APIs and yak-shaving configs; more time shipping. Even a conservative +20% is material. Personally, depending on the task, it feels like **5–20×**.
+
+So yes, measure. Build pipelines. Instrument agent runs. Track time to MVP. Just don’t let the dashboard run the kingdom. **Use** numbers — don’t **worship** them.
+
+## portfolio of bets
+
+Not every dragon ride pays off. Sometimes you spend a few hundred bucks and end up nowhere useful — but you learn a maneuver, tune a saddle, or map a better route. That knowledge compounds.
+
+Think like an investor: cap downside, **uncap upside**. A few successful rides repay a lot of failed ones.
+
+## the playbook (as I see it today)
+
+- **Acknowledge the new physics.** Non-determinism is a feature, not a bug. Train the beasts; don’t scold machines.
+- **Optimize for long flights.** Batch work. Avoid incessant landings. Stay on the reins, not the rearview.
+- **Gear up.** Use tools that preserve flow and give you precise control. Saddles, reins, goggles.
+- **Budget feed.** Spend where speed yields value. Use small dragons when you can; feed the big ones when it matters.
+- **Measure with humility.** Instrument outcomes. Accept fuzziness. Avoid metric theater.
+- **Make asymmetric bets.** Cap losses. Let wins run. Treat experiments as tuition.
+
+## the blunt part
+
+If you don’t train and field your own dragons, someone else’s will fly over your walls. This _is_ an arms race. The map is being redrawn in real time by the people who learn to ride.
+
+So: find yours. Train it. **Feed** it. Build the saddles. Learn the winds. And then fly farther than you thought possible.
+
+Because the world has dragons now. And the only real question is whether they work **for** your kingdom or **against** it.
+
+![image](/posts/2025/08/2025.08.31.1.png)
