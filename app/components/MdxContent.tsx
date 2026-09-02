@@ -26,7 +26,7 @@ type MdxContentProps = {
   source: string;
 };
 
-export function MdxContent({ source }: MdxContentProps) {
+export async function MdxContent({ source }: MdxContentProps) {
   return (
     <MDXRemote
       source={source}
