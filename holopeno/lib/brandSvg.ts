@@ -1,4 +1,4 @@
-import opentype from 'opentype.js';
+import opentype, { type Font } from 'opentype.js';
 import { loadExtraBoldFontPath } from './og';
 import { monoAdvance, tildePlacement, tildeViewBox, wordmarkTracking } from './tilde';
 import { tildeLayers } from './tildeSvg';
@@ -27,7 +27,7 @@ const em = 100;
 const baseline = 0.86 * em;
 const pad = 0.16 * em;
 
-function outline(font: opentype.Font, text: string, tracking: number): string {
+function outline(font: Font, text: string, tracking: number): string {
   const step = (monoAdvance + tracking) * em;
   const paths: string[] = [];
   for (let i = 0; i < text.length; i += 1) {

@@ -48,9 +48,6 @@ importers:
       '@types/node':
         specifier: 24.8.0
         version: 24.8.0
-      '@types/opentype.js':
-        specifier: ^1.3.10
-        version: 1.3.10
       '@types/react':
         specifier: 19.2.2
         version: 19.2.2
@@ -449,9 +446,6 @@ packages:
 
   '@types/node@24.8.0':
     resolution: {integrity: sha512-5x08bUtU8hfboMTrJ7mEO4CpepS9yBwAqcL52y86SWNmbPX8LVbNs3EP4cNrIZgdjk2NAlP2ahNihozpoZIxSg==}
-
-  '@types/opentype.js@1.3.10':
-    resolution: {integrity: sha512-F67EFyk6j02okHz5JCgata3ZRAcZi9GLnzmkHw/rzJq3OCc8/ZVdoKrxMTYjcQP6IYHGBz2cav1cpzkOkPiPCQ==}
 
   '@types/react-dom@19.2.2':
     resolution: {integrity: sha512-9KQPoO6mZCi7jcIStSnlOWn2nEF3mNmyr3rIAsGnAbQKYbRLyqmeSc39EVgtxXVia+LMT8j3knZLAZAh+xLmrw==}
@@ -2835,8 +2829,6 @@ snapshots:
   '@types/node@24.8.0':
     dependencies:
       undici-types: 7.14.0
-
-  '@types/opentype.js@1.3.10': {}
 
   '@types/react-dom@19.2.2(@types/react@19.2.2)':
     dependencies:
