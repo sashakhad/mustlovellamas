@@ -1,17 +1,19 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { MdxContent } from '@/app/components/MdxContent';
-import { formatPostDate } from '@/lib/dates';
-import { getAllPosts, getPostBySlug } from '@/lib/posts';
-import { site } from '@/lib/site';
+import { ButtonLink } from '../../components/ButtonLink';
+import { HeatMeter } from '../../components/HeatMeter';
+import { MdxContent } from '../../components/MdxContent';
+import { Tag } from '../../components/Tag';
+import { formatPostDate } from '../../../lib/dates';
+import { getAllPosts, getPostBySlug } from '../../../lib/posts';
+import { site } from '../../../lib/site';
 
 type PostPageProps = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getAllPosts({ includeDrafts: true }).map((post) => ({ slug: post.slug }));
+export function generateStaticParams(): Array<{ slug: string }> {
+  return getAllPosts({ includeDrafts: true }).map(post => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -26,7 +28,13 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     description,
     alternates: { canonical: `/posts/${post.slug}` },
     ...(post.draft ? { robots: { index: false, follow: false } } : {}),
-    openGraph: { title: post.title, description, type: 'article', authors: [site.author], publishedTime: post.date },
+    openGraph: {
+      title: post.title,
+      description,
+      type: 'article',
+      authors: [site.author],
+      publishedTime: post.date,
+    },
   };
 }
 
@@ -37,19 +45,30 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
   return (
-    <article className='mx-auto max-w-3xl px-5 py-14'>
-      <Link href='/' className='font-mono text-xs text-ash hover:text-seed'>
+    <article className='mx-auto max-w-content px-5 py-14'>
+      <ButtonLink href='/' variant='bare'>
         ← posts
-      </Link>
-      <h1 className='mt-6 font-mono text-3xl font-extrabold tracking-tight sm:text-4xl'>{post.title}</h1>
-      <p className='mt-3 font-mono text-xs text-ash'>
-        {post.draft ? 'draft · ' : ''}
-        {formatPostDate(post.date).toLowerCase()} · {post.readingTime} min read
-        {post.tags.length > 0 ? ` · ${post.tags.map((tag) => `#${tag.toLowerCase()}`).join(' ')}` : ''}
-      </p>
-      <div className='prose-holo mt-10'>
+      </ButtonLink>
+      <header className='mt-8 max-w-prose'>
+        <h1 className='font-mono text-[2rem] font-extrabold leading-[2.5rem] tracking-tight sm:text-h1'>
+          {post.title}
+        </h1>
+        <div className='mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-micro text-ash'>
+          {post.draft ? <span className='text-ripe'>draft</span> : null}
+          <time dateTime={post.date}>{formatPostDate(post.date).toLowerCase()}</time>
+          <span>{post.readingTime} min read</span>
+          {post.heat ? <HeatMeter level={post.heat} showLabel /> : null}
+          {post.tags.map(tag => (
+            <Tag key={tag} label={tag} />
+          ))}
+        </div>
+      </header>
+      <div className='prose-holo mt-12 max-w-prose'>
         <MdxContent source={post.content} />
       </div>
+      <footer className='mt-16 max-w-prose border-t border-line pt-8'>
+        <ButtonLink href='/'>← more posts</ButtonLink>
+      </footer>
     </article>
   );
 }

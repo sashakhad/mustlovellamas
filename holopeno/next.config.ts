@@ -1,13 +1,17 @@
 import type { NextConfig } from 'next';
 
+const fonts = ['./assets/fonts/**'];
+
 const nextConfig: NextConfig = {
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+  // Pin tracing to this directory so a parent repo's lockfile is never mistaken for the workspace root.
+  outputFileTracingRoot: process.cwd(),
   transpilePackages: ['next-mdx-remote'],
   outputFileTracingIncludes: {
-    '/opengraph-image': ['./assets/fonts/**'],
-    '/icon': ['./assets/fonts/**'],
-    '/apple-icon': ['./assets/fonts/**'],
-    '/posts/[slug]/opengraph-image': ['./assets/fonts/**'],
+    '/opengraph-image': fonts,
+    '/icon': fonts,
+    '/apple-icon': fonts,
+    '/posts/[slug]/opengraph-image': fonts,
+    '/brand/[asset]': fonts,
   },
 };
 

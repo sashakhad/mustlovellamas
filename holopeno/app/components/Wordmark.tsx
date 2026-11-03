@@ -1,25 +1,38 @@
-import { tildeWavePath } from '@/lib/tilde';
+import type { CSSProperties } from 'react';
+import { cn } from '../../lib/cn';
+import { site } from '../../lib/site';
+import { tildePlacement, wordmarkTracking } from '../../lib/tilde';
+import { TildeWave } from './TildeWave';
 
 type WordmarkProps = {
   className?: string;
+  animated?: boolean;
 };
 
-// "holopeño" set in heavy mono. The ñ is an n with an SVG tilde that glitches like a bad hologram.
-export function Wordmark({ className }: WordmarkProps) {
-  const wave = tildeWavePath(24, 8);
+export const tildeStyle: CSSProperties = {
+  left: `${tildePlacement.left}em`,
+  top: `${tildePlacement.top}em`,
+  width: `${tildePlacement.width}em`,
+  height: `${tildePlacement.height}em`,
+};
+
+// "holopeño" in JetBrains Mono ExtraBold. The ñ is a plain n wearing the hologram tilde.
+export function Wordmark({ className, animated = true }: WordmarkProps) {
   return (
-    <span className={`inline-flex items-baseline font-mono font-extrabold tracking-tight ${className ?? ''}`} aria-label='holopeño'>
+    <span
+      role='img'
+      aria-label={site.name}
+      className={cn('inline-flex items-baseline font-mono font-extrabold leading-none', className)}
+      style={{ letterSpacing: `${wordmarkTracking}em` }}
+    >
       <span aria-hidden='true'>holope</span>
       <span aria-hidden='true' className='relative inline-block'>
         n
-        <svg
-          viewBox='-2 -3 28 14'
-          className='tilde-wave pointer-events-none absolute left-[4%] top-[-0.04em] h-[0.3em] w-[92%] overflow-visible'
-          fill='none'
-        >
-          <path d={wave} className='tilde-ghost' stroke='#C6F432' strokeWidth='2.6' strokeLinecap='square' />
-          <path d={wave} stroke='currentColor' strokeWidth='2.6' strokeLinecap='square' />
-        </svg>
+        <TildeWave
+          animated={animated}
+          className='pointer-events-none absolute overflow-visible'
+          style={tildeStyle}
+        />
       </span>
       <span aria-hidden='true'>o</span>
     </span>

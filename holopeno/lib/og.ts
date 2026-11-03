@@ -1,16 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 
-export const ogColors = {
-  char: '#0B0B0A',
-  bone: '#F2EFE6',
-  ash: '#9A968C',
-  pepper: '#3E7A1F',
-  seed: '#C6F432',
-} as const;
+export type OgFont = {
+  name: string;
+  data: Buffer;
+  weight: 400 | 800;
+  style: 'normal';
+};
 
-export function loadMonoFont(): Buffer {
-  return fs.readFileSync(path.join(process.cwd(), 'assets/fonts/JetBrainsMono-ExtraBold.ttf'));
+const fontDirectory = path.join(process.cwd(), 'assets/fonts');
+
+export function loadOgFonts(): OgFont[] {
+  return [
+    {
+      name: 'JetBrains Mono',
+      data: fs.readFileSync(path.join(fontDirectory, 'JetBrainsMono-ExtraBold.ttf')),
+      weight: 800,
+      style: 'normal',
+    },
+    {
+      name: 'JetBrains Mono',
+      data: fs.readFileSync(path.join(fontDirectory, 'JetBrainsMono-Regular.ttf')),
+      weight: 400,
+      style: 'normal',
+    },
+  ];
 }
 
-export { tildeWavePath } from '@/lib/tilde';
+export function loadExtraBoldFontPath(): string {
+  return path.join(fontDirectory, 'JetBrainsMono-ExtraBold.ttf');
+}

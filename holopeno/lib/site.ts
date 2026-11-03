@@ -2,7 +2,8 @@ export const site = {
   name: 'holopeño',
   shortName: 'holopeno',
   tagline: 'spicy notes on llms and shipping software.',
-  description: 'holopeño: spicy notes on llms, agents, and the software factories they run. hot, not hallucinated.',
+  description:
+    'holopeño: spicy notes on llms, agents, and the software factories they run. hot, not hallucinated.',
   author: 'sasha',
   // placeholder until the X handle is final (see the rebrand plan)
   xHandle: '@holopeno',

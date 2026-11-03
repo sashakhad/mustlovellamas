@@ -1,23 +1,75 @@
-import { ogColors } from '@/lib/og';
-import { tildeWavePath } from '@/lib/tilde';
+import { monoAdvance, tildePlacement, wordmarkTracking } from './tilde';
+import { svgDataUri, tildeSvg } from './tildeSvg';
+import { palette } from './tokens';
 
-// JetBrains Mono advance width is 0.6em, so the n's position is exact.
-const ADVANCE = 0.6;
+type OgGlyphsProps = {
+  fontSize: number;
+  text: string;
+  // Index of the n that wears the tilde.
+  tildeIndex: number;
+  ink?: string;
+  tracking?: number;
+};
 
-// The doubled, offset tilde wave, placed over character `index` of a mono word set at `fontSize`.
-export function TildeOverlay({ fontSize, index, top }: { fontSize: number; index: number; top: number }) {
-  const width = fontSize * ADVANCE * 0.9;
-  const height = width * 0.5;
-  const wave = tildeWavePath(24, 8);
+// Mono text with the hologram tilde placed over one n, for next/og (satori) renders.
+export function OgGlyphs({
+  fontSize,
+  text,
+  tildeIndex,
+  ink = palette.bone,
+  tracking = wordmarkTracking,
+}: OgGlyphsProps) {
+  const step = (monoAdvance + tracking) * fontSize;
+  const src = svgDataUri(tildeSvg({ ink, tear: true }));
   return (
-    <svg
-      width={width}
-      height={height}
-      viewBox='-2 -3 28 14'
-      style={{ position: 'absolute', left: fontSize * ADVANCE * (index + 0.05), top }}
+    <div
+      style={{
+        display: 'flex',
+        position: 'relative',
+        color: ink,
+        fontSize,
+        fontWeight: 800,
+        lineHeight: 1,
+        letterSpacing: tracking * fontSize,
+      }}
     >
-      <path d={wave} fill='none' stroke={ogColors.seed} strokeWidth={2.8} transform='translate(1.2,-1.2)' />
-      <path d={wave} fill='none' stroke={ogColors.bone} strokeWidth={2.8} />
-    </svg>
+      <div style={{ display: 'flex' }}>{text}</div>
+      {/* eslint-disable-next-line @next/next/no-img-element -- satori only understands plain img */}
+      <img
+        src={src}
+        alt=''
+        width={tildePlacement.width * fontSize}
+        height={tildePlacement.height * fontSize}
+        style={{
+          position: 'absolute',
+          left: tildeIndex * step + tildePlacement.left * fontSize,
+          top: tildePlacement.top * fontSize,
+        }}
+      />
+    </div>
+  );
+}
+
+type OgMarkProps = { size: number };
+
+// The standalone ñ, centered on char. Used by the favicon and apple icon.
+// The ink spans 0.06em (tilde crest) to 0.86em (baseline), so the box is nudged down to center it optically.
+export function OgMark({ size }: OgMarkProps) {
+  const fontSize = size * 0.95;
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: palette.char,
+        fontFamily: 'JetBrains Mono',
+        paddingTop: fontSize * 0.093,
+      }}
+    >
+      <OgGlyphs fontSize={fontSize} text='n' tildeIndex={0} tracking={0} />
+    </div>
   );
 }

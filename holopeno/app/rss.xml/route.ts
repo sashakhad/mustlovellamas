@@ -1,6 +1,7 @@
-import { parsePostDate } from '@/lib/dates';
-import { getAllPosts } from '@/lib/posts';
-import { getSiteUrl, site } from '@/lib/site';
+import { parsePostDate } from '../../lib/dates';
+import { rssGuid } from '../../lib/feed';
+import { getAllPosts } from '../../lib/posts';
+import { getSiteUrl, site } from '../../lib/site';
 
 export const dynamic = 'force-static';
 
@@ -13,16 +14,19 @@ function escapeXml(value: string): string {
     .replaceAll("'", '&apos;');
 }
 
-export function GET() {
+export function GET(): Response {
   const base = getSiteUrl();
-  const items = getAllPosts().map(
-    (post) => `    <item>
+  const posts = getAllPosts();
+  const newest = posts[0];
+  const items = posts.map(
+    post => `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${base}/posts/${post.slug}</link>
-      <guid isPermaLink="false">${site.shortName}:${post.slug}</guid>
+      <guid isPermaLink="false">${rssGuid(post.slug)}</guid>
       <pubDate>${parsePostDate(post.date).toUTCString()}</pubDate>
       <description>${escapeXml(post.description || post.title)}</description>
-    </item>`,
+${post.tags.map(tag => `      <category>${escapeXml(tag)}</category>`).join('\n')}
+    </item>`
   );
 
   const xml = `<?xml version="1.0" encoding="UTF-8" ?>
@@ -32,7 +36,7 @@ export function GET() {
     <link>${base}</link>
     <description>${escapeXml(site.tagline)}</description>
     <language>en</language>
-    <atom:link href="${base}/rss.xml" rel="self" type="application/rss+xml" />
+${newest ? `    <lastBuildDate>${parsePostDate(newest.date).toUTCString()}</lastBuildDate>\n` : ''}    <atom:link href="${base}/rss.xml" rel="self" type="application/rss+xml" />
 ${items.join('\n')}
   </channel>
 </rss>`;

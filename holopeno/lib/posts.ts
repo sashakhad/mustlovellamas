@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { parsePostDate } from '@/lib/dates';
-import { calculateReadingTime, countWords } from '@/lib/readingTime';
-import { slugify } from '@/lib/slug';
+import { parsePostDate } from './dates';
+import { parseHeat, type HeatLevel } from './heat';
+import { calculateReadingTime, countWords } from './readingTime';
+import { slugify } from './slug';
 
 export type PostMeta = {
   slug: string;
@@ -12,6 +13,7 @@ export type PostMeta = {
   tags: string[];
   description: string;
   readingTime: number;
+  heat: HeatLevel | null;
   filePath: string;
   draft: boolean;
 };
@@ -48,12 +50,15 @@ function readTags(value: unknown): string[] {
 function toPostMeta(filePath: string, data: Record<string, unknown>, content: string): PostMeta {
   const explicitSlug = typeof data.slug === 'string' ? data.slug : '';
   return {
-    slug: slugify(explicitSlug.length > 0 ? explicitSlug : path.basename(filePath, path.extname(filePath))),
+    slug: slugify(
+      explicitSlug.length > 0 ? explicitSlug : path.basename(filePath, path.extname(filePath))
+    ),
     title: typeof data.title === 'string' ? data.title : 'untitled',
     date: typeof data.date === 'string' ? data.date : '1970-01-01',
     tags: readTags(data.tags),
     description: typeof data.description === 'string' ? data.description : '',
     readingTime: calculateReadingTime(countWords(content)),
+    heat: parseHeat(data.heat),
     filePath,
     draft: data.draft === true,
   };
@@ -74,7 +79,7 @@ export function getAllPosts(options?: { includeDrafts?: boolean }): PostMeta[] {
 }
 
 export function getPostBySlug(slug: string): Post | null {
-  const meta = getAllPosts({ includeDrafts: true }).find((post) => post.slug === slug);
+  const meta = getAllPosts({ includeDrafts: true }).find(post => post.slug === slug);
   if (!meta) {
     return null;
   }
