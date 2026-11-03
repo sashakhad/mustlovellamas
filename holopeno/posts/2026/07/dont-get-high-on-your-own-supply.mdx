@@ -1,0 +1,305 @@
+---
+title: "don't get high on your own supply"
+date: "2026-07-16"
+tags: [ai, agents, adhd]
+description: "An agent-driven Instagram pipeline keeps broadcasting separate from the feed by combining deterministic tools, bounded judgment, and local memory."
+---
+
+First published on [Writing in Color](https://blog.sashabayan.com/posts/dont-get-high-on-your-own-supply).
+
+I post Instagram stories without opening Instagram.
+
+I drop a batch of photos into a chat in Cursor, give them to an **agent**—an AI assistant that can use tools and follow instructions in my editor—and say, "schedule these for the week." It prepares the images, chooses times, posts them, and keeps a local record of what went out.
+
+The Instagram app never opens.
+
+That sounds like a productivity trick. For me, it is an attention boundary.
+
+## instagram was useful. instagram was expensive.
+
+Broadcasting is a bid for connection.
+
+I want people to see where I'm traveling, what I'm playing, what I'm building. Not for the metrics. Because when they see it, they reach out. Friendships. Gigs. Career doors. An image lands in someone's mind, gives them an idea, and they text you. That's how a lot of adult life still works.
+
+The price of sending that image was opening Instagram.
+
+First came the choices. Which photo? What text? Where should it go? Should I add a location? I would dig through my camera roll and somehow become self-conscious about a decision that should have taken thirty seconds.
+
+Then came the feed.
+
+The app is built by thousands of brilliant people whose job is to hold attention. Once I was in, I would scroll. With ADHD, the transition from _post this photo_ to _where did the last forty minutes go?_ was especially easy.
+
+The musician's version of this cost was concrete: years of performances never posted. People would ask, "Are you still playing music?" the same week I had played a show. Out of sight, out of mind. Every unposted night was a missed bid.
+
+## the app charges attention as admission
+
+For a long time, I treated Instagram as one thing. It isn't.
+
+Posting, messaging, and consuming the feed are three different jobs that happen to share an app. I wanted the first two. The third was the tollbooth sitting in front of them.
+
+I tried to manage the problem with self-control. I removed Instagram from my phone unless I absolutely needed it. I used browser extensions that blocked the feed so I could reach the inbox. I pulled messages into Beeper so I could answer without visiting the mothership.
+
+Those defenses helped, but the double bind remained. Check rarely and you miss the time-sensitive bids—_I'm literally around the corner, let's meet up._ Check often and you give the app another chance to pull you in.
+
+The mistake was assuming I needed a better relationship with the front door.
+
+I needed another entrance.
+
+## don't get high on your own supply
+
+> Don't get high on your own supply.
+
+That became the rule. Use the broadcast machine. Never consume the feed.
+
+Strictly speaking, the metaphor has a crack in it. The thing that hooks me isn't my own stories. It is Instagram's feed. I am getting high on _their_ supply.
+
+But you're also one of Instagram's suppliers. Every story you post is inventory for someone else's scroll. The feed is just everybody's posts, cut and stacked by the algorithm. So the rule still holds, and it's sharper for the admission: manufacture the product, ship it to the platform, never sample the product line.
+
+## building a side door
+
+The system now looks like this:
+
+```text
+photo → analyze → decide → render → review → schedule → archive
+```
+
+The agent analyzes each photo and decides where text can live. It burns captions or location labels into the image only when I supplied them. It crops or pads to 9:16, checks that faces survived, schedules to an open time slot through Publer, and writes everything to a searchable local archive. Analytics come back down into local files too.
+
+The important part is not that AI can post to Instagram. The important part is that the system separates **intent** from **interface**. I say what I want to happen. The machinery handles the interfaces I no longer want to inhabit.
+
+It did not arrive as a neat architecture. The build took shape over three days, July 14–16, mostly by failing in useful ways.
+
+## i had already paid tuition
+
+Before this, I had built a pipeline for a project called Jump Rope Daddy: blog post to AI video to captions to Publer to TikTok, Instagram, and YouTube.
+
+It published 163 posts across three platforms. The reach was modest; I did not crack the algorithm. But I did run a real machine long enough to meet the boring realities that demos skip: files over 100 MB that needed compression, upload timeouts on large videos, hooks that looked fine until Instagram collapsed the caption after fifty-five visible characters, and story photos rejected after upload because they exceeded 8 MB.
+
+I had even written the thesis once without knowing I was drafting the sequel. [Nobody wants a video editor](https://blog.sashabayan.com/posts/nobody-wants-a-video-editor): people want the connection or impact on the other side; the editor is often just the obstacle. The video generated for that essay became the pipeline's largest file—295 MB—and had to be compressed to ship.
+
+The content about friction became upload friction.
+
+That year of scars changed how I approached the personal system. I did not start with the image renderer. I started with the pipe.
+
+## the api was the feature
+
+Most people choose a scheduling product by looking at its interface. I was trying to escape interfaces. The API was the product.
+
+The requirements were simple and ordered:
+
+1. It has an API that an agent can drive.
+2. The API handles the actual use case: Stories, media upload, and scheduling—not just feed posts.
+3. It absorbs the authentication fragility so I do not babysit tokens.
+4. The price is sane.
+
+Hootsuite failed the price test. Other products failed the API or Story test. Going directly through Instagram's Graph API and Facebook Business Suite looked like a maze of configuration and token maintenance. Maybe I have not looked deeply enough or tried hard enough. But I consciously chose to avoid that class of failure rather than collect an OAuth war story.
+
+Publer cleared the requirements for about twenty dollars a month. The vendor is not only protection from Instagram-the-app. It is protection from Instagram-the-API.
+
+## twenty minutes to possible
+
+Before building the rest, I tested the narrowest useful path:
+
+> Upload this photo and schedule it as an Instagram Story in three hours.
+
+About twenty minutes in, it worked.
+
+That mattered because it proved the pipe before I built anything around it. A clean demo can seduce you into designing a whole system on top of a capability the vendor does not actually support. I wanted the opposite order: prove the risky dependency, then build.
+
+## the api exists. the product does not honor it.
+
+The first wall arrived immediately.
+
+> Put a caption on it and tag Vevey as the location.
+
+Instagram Stories ignore API caption and location text. The fields exist upstream; the Story does not display them the way I wanted. Native location stickers were out.
+
+So I accepted the first trade-off: burn the words directly into the image. They would look like Story text, but they would not be tappable.
+
+## the first render looked like software
+
+The first burn-in was technically correct and visually wrong.
+
+Centered. Stiff. A title card pretending to be a Story.
+
+> It should look natural… like an actual Instagram thing.
+
+We adjusted the padding and pills. Then I realized we were just replacing one set of fixed numbers with another.
+
+> You're just doing it with fixed numbers. That's not smart.
+
+That complaint became the architecture.
+
+## the boundary became the architecture
+
+I wanted scripts for the parts that should never improvise and an agent for the parts that required visual judgment.
+
+A **deterministic script** is a tool that gives the same result from the same inputs: put this text at these coordinates, validate this file, schedule this media at this time, archive this result.
+
+A **skill** is a reusable instruction document the agent loads before doing the job: analyze the photo, prefer calm areas, do not cover faces, review the rendered JPEG, adjust if necessary, and stop after a few failed attempts.
+
+The split became:
+
+- Scripts render, validate, schedule, archive, and sync.
+- The agent chooses placement, contrast, and crop.
+- The scripts produce an output.
+- The agent looks at the output and decides whether it is acceptable.
+
+Not _agent, do everything_. Judgment on top of a deterministic toolbelt.
+
+## fail before the expensive part
+
+The next rule was simple: discover invalid inputs before rendering or uploading.
+
+The preflight checks whether the media can be decoded, whether the schedule is in the past, whether configuration exists, and whether platform limits will reject the result. Story photos must stay at or below 8 MB. Reel captions top out at 2,200 characters. Reels must be 3–90 seconds, with separate platform and direct-upload size ceilings.
+
+```bash
+pnpm exec tsx personal-social/src/cli.ts validate ./hikers_trail_story.jpg --kind story --in 3h
+```
+
+```json
+{
+  "validation": { "ok": true, "issues": [] }
+}
+```
+
+It is not glamorous. It is also the difference between a system and a demo.
+
+## measurements before judgment
+
+Before the agent places anything, a script measures the photo. It reports Instagram's safe zones, the calmness and brightness of different bands, and crop candidates.
+
+```bash
+pnpm exec tsx personal-social/src/cli.ts analyze ./photo.jpg
+```
+
+```json
+{
+  "safeZone": { "top": 300, "bottom": 1580, "left": 65, "right": 1015 },
+  "bands": [
+    { "name": "upper", "busyness": 13.78, "score": 0.1917 },
+    { "name": "middle", "busyness": 54.79, "score": 0.1641 },
+    { "name": "lower", "busyness": 40.43, "score": 0.1394 }
+  ],
+  "cropAdvice": {
+    "recommended": "centre",
+    "reviewHint": "Render, then vision-check faces at frame edges"
+  }
+}
+```
+
+The numbers do not make the decision. They give the agent something better than a vibe to reason from.
+
+Then came crop wars. Landscape photos, then 3:4 photos, then faces disappearing at the edge of a 9:16 frame. The loop became: use the recommended crop, render, look at the JPEG, try the next candidate if a person was clipped, then use `fit`—the full image on a padded background—if every full-bleed crop destroyed the shot.
+
+The agent literally looks at the result and checks whether the people survived.
+
+Rendering remains boring and exact:
+
+```bash
+pnpm exec tsx personal-social/src/cli.ts render ./photo.jpg \
+  --crop auto \
+  -o personal-social/output/photo_story.jpg
+```
+
+Same image, same flags, same pixels.
+
+## the mistakes became the manual
+
+The strongest rules in the skill were not written during the first design pass. They are scar tissue.
+
+### the invented mountain
+
+At one point, the agent recognized a mountain in a photo and added a location sticker:
+
+> Where did you get "Tour d'Aï"?
+
+I had not supplied it. Recognition had quietly become permission.
+
+That produced the most important rule in the skill:
+
+> Do not add captions, location stickers, or any burned-in copy unless the user explicitly provided that exact text.
+>
+> Recognizing a place from the photo is **not** permission to burn a sticker.
+
+The default is now an image-only Story. If words might help and I did not provide them, the agent asks. It does not become creative on my behalf.
+
+### the video that became a photo
+
+Then I dropped a video into the chat and macOS Photos handed the editor a still poster frame instead. The system dutifully treated it as a photograph.
+
+The first fix was worse in a subtler way. It found the original video in the Photos library but skipped the trim I had made. It recovered the source and lost the intent.
+
+Now the system detects the still-render pattern, resolves the asset back to Photos, and exports the adjusted video with the trim applied. If that export fails, it stops and asks me to share the clip again. It never silently falls back to the untrimmed original, and it never posts the still.
+
+Videos stay videos.
+
+## a system needs memory
+
+Scheduling successfully is not enough if the only record lives inside another company's product.
+
+Every scheduled post is written to a local JSONL archive, with a local copy of the media. The editor can search captions, locations, dates, statuses, and job IDs. A scheduled sync pulls analytics down from Publer so I can inspect them without building a permanent dependency on its dashboard.
+
+I also gave the calendar memory. It knows which Pacific-time slots are already occupied, refuses accidental collisions, and can place a related follow-up into the same Story tray only when I explicitly ask. The first idea was to stack follow-ups automatically. I rejected it because it felt brittle.
+
+Memory is not a side feature. It is what turns a sequence of API calls into a system I can inspect, correct, and eventually leave a vendor with.
+
+## language is fuzzy. calendars are not.
+
+The funniest failure came after the scheduling logic was already working.
+
+The posts were set for Zurich evenings. I said they should be PST. The agent moved them to _evening_ Pacific.
+
+> No fool. They should be morning PT because those were the optimal times. WTF?
+
+The correction took three tries.
+
+This is the limit of natural language in miniature. Humans routinely omit context because another human can infer it. Calendars cannot. "Make it Pacific" says nothing about whether the hour should stay fixed or the moment should stay fixed. The agent did not need more creativity. It needed an explicit scheduling contract and a human review.
+
+That failure led to another hardening pass: archive statuses, collision refusal, one shared scheduling path, fail-loud recovery, and explicit timezone behavior.
+
+## what i deliberately gave up
+
+Burned-in locations are not tappable. Burned-in mentions do not notify anyone. There are no polls, music stickers, or interactive toys. Story insights can lag through Publer, and I declined the much larger Graph API project for now.
+
+In return, I do not open Instagram.
+
+For me, the trade is not close.
+
+## this was not a time-saving project
+
+The system probably saves time, but that is not the claim I care about.
+
+A normal scheduler could also make posting faster. The difference is that this system makes entering the app unnecessary. It does not merely shorten the task. It removes the moment when my intention is most vulnerable to being redirected.
+
+That is a different kind of automation.
+
+Most automation starts with: _How can I do this faster?_
+
+This started with: _How can I get the part I value without exposing myself to the part that costs me?_
+
+Once I saw the problem that way, Instagram stopped being one indivisible product. It became a collection of capabilities. Broadcast could be separated from consumption. Messages could be separated from the feed. My archive could be separated from the vendor.
+
+The technical system is really a set of boundaries expressed as software.
+
+## steal this pattern
+
+The first step is not "use AI." The first step is to decide what outcome you want from a product and which parts of its interface you no longer want to pay for.
+
+Then:
+
+1. **Find a clean API that exposes the capability you need.** Prove the risky dependency before building around it.
+2. **Put deterministic tools underneath the workflow.** Validate first. Make identical inputs produce identical outputs.
+3. **Give the agent bounded judgment.** Let it decide where judgment helps, then force it to review the result.
+4. **Turn every failure into a rule.** Your best instructions will probably begin as embarrassing mistakes.
+5. **Keep your own memory.** Archive the inputs, outputs, status, and analytics somewhere you control.
+
+This pattern is bigger than Instagram. A lot of software bundles something useful with a process, interface, or attention cost you do not actually want. Agents make it possible to build another entrance. Engineering is what keeps that entrance from becoming a trapdoor.
+
+I wanted connection, not a feed. I wanted to send the bid without paying for it in attention.
+
+Now the bid can go out without my attention going with it.
+
+If I announce this essay on Instagram, the machine will do that too.
+
+That's not a contradiction. That's the design.

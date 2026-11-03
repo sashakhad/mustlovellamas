@@ -1,0 +1,40 @@
+---
+title: "more tools, less trust"
+date: "2026-03-05"
+tags: [ai, tools, trust]
+description: "Fast software creates overlapping tools, conflicting calculations, and a trust problem that another tool cannot fix."
+---
+
+First published on [Writing in Color](https://blog.sashabayan.com/posts/more-tools-less-trust).
+
+More is definitely not better. We're seeing this clearly in the age of fast software — more features, more apps, more ways of doing the same thing. The bottleneck isn't building anymore. It's knowing which thing to trust.
+
+When people are encouraged to build their own tools and solve problems at speed, a new problem emerges: the Venn diagram issue. Multiple people solve the same or similar problems in slightly different ways, and suddenly nobody knows which tool is authoritative. Which dashboard do I look at? Which app has the right number? Who owns this?
+
+## where it really breaks
+
+The overlap itself is a problem. People don't know which tool to go to, which solution to seek, what's authoritative. That confusion alone slows things down. And it gets worse when those overlapping tools also have slight variations at the data layer.
+
+Maybe one app calculates revenue before costs of goods sold and another after. Maybe one looks at LLM token consumption in aggregate while another separates it out with a per-model fee. Each approach might be independently valid — a defensible way of computing the same underlying data with subtle philosophical differences.
+
+But when someone pulls up two dashboards and the numbers don't match, they don't think, _"Ah, these must use slightly different calculation methodologies."_ They think, _"Something is wrong."_
+
+And that distrust doesn't stay contained. It spreads to every application, every data source. People stop trusting the infrastructure entirely, even when the calculations are correct. Everything grinds to a halt — particularly when those numbers need to be reconciled for customers.
+
+## technical and social
+
+On the technical front, the problem is tractable. Make calculations traceable. Get consensus on how data is computed. Establish an agreed-upon methodology — not necessarily _the_ right way, but _a_ right way that everyone aligns on.
+
+The social piece is harder. People have to understand what the data means, agree on definitions, and actually socialize those decisions.
+
+## the mongoose problem
+
+This whole dynamic reminds me of a real story from Puerto Rico. In the 1870s, rats were destroying sugarcane fields, so they introduced small Indian mongooses to hunt them. Elegant solution — except mongooses are active during the day and rats come out at night. They largely missed each other entirely. And the mongooses? They ate native bird eggs and other wildlife instead, becoming their own invasive species problem.
+
+We solve one problem and new ones emerge. Unlocking everyone to build creates exactly this kind of cascading challenge — and no single fix resolves it because the problem isn't purely technical. Architecture won't save you when the real gap is that two teams never agreed on what "revenue" means.
+
+The answer, if there is one, is probably not another tool. It's a shared language — traceable calculations, agreed-upon definitions, and a source of truth people can actually find.
+
+The hard part isn't building it. The hard part is getting an entire organization to use it.
+
+![image](/posts/2026/03/2026.03.05.png)

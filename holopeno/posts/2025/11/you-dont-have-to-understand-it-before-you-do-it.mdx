@@ -1,0 +1,122 @@
+---
+title: "you don't have to understand it before you do it"
+date: "2025-11-28"
+tags: [ai, learning, engineering]
+description: "Low-risk experiments with Cursor, context windows, and monorepos often teach more than theory alone."
+---
+
+First published on [Writing in Color](https://blog.sashabayan.com/posts/you-dont-have-to-understand-it-before-you-do-it).
+
+## learning by doing (instead of just thinking about it)
+
+The best way to learn is by doing.
+
+The engineer in me hates that sentence. It sounds imprecise, inefficient, un-optimized. Surely there’s a better algorithm than “try stuff and see what happens.”
+
+But when I actually look at my life and work, it keeps turning out to be true.
+
+My mind wants to learn everything theoretically first: gather the “best practices,” design the perfect system, feel like I understand it all in advance. In reality, I learn the most by just doing the thing and watching what happens.
+
+There _is_ a shortcut: you don’t have to start from zero. You can:
+
+1. Look at what others have done.
+2. Steal their best ideas.
+3. Run your own experiment.
+
+Let the people who truly care about optimizing a specific thing do the heavy lifting. Borrow their work. Then still go do your own run and see how it actually feels in your life.
+
+Ordinary life taught me the same thing: some questions aren’t questions of universal “optimal.” They’re questions of preference. You only find those through experience.
+
+But remember, you still have to do it. You have to actually try what you've learned from others and see if it works for you.
+
+## from ordinary life to AI coding experiments
+
+This “learn by doing” pattern is also showing up in my professional life.
+
+Lately I’ve been talking to a lot of engineers and engineering leaders about how to use Cursor, a next-generation AI-first IDE—the place where you go to code with AI deeply woven into the workflow. It’s an incredible application that can make coding much faster and more effective.
+
+But with AI-driven development, there’s a whole new paradigm to learn: context windows, agents, model choice, cost control, parallelization, picking the right output, and how Cursor behaves on massive mono repos.
+
+I was talking to someone who asked:
+
+> “What happens if I max out the context window of my agent in a chat? Is it going to break Cursor? Is something bad going to happen?”
+
+And a big part of me just thought:
+
+> _Just try it and see what happens._
+
+Learn for yourself. Get a feel for how the model degrades as you use up its context window. Watch what Cursor does—does it summarize? Slow down? Fail gracefully?
+
+There _are_ things that make sense to ask up front. For example, it’s not obvious that Cursor summarizes the chat when the context window runs out—that’s worth clarifying.
+
+But “will it break?” is often best answered by: open it and push it until it breaks.
+
+Same with big mono repos. If you have a huge repository with thousands or millions of files, you can absolutely ask, “Will Cursor work on this?” But you can also just open the repo in Cursor and see. You’ll learn in five minutes.
+
+I get that some people are operating from an “authority model”: the experts tell you what’s safe and what’s not, and you follow. That has its place. But especially in software and tools, you can learn _so much faster_ by pushing the button yourself.
+
+## cultures that punish failure
+
+There’s also a cultural piece.
+
+If you grew up in an environment—often, though not exclusively, in non-Western contexts—where failure was punished, you’re trained to avoid getting things wrong. If your teacher literally smacked your hand with a ruler when you made a mistake, of _course_ you’re going to want the answer in advance. You’re not going to explore. You’re not going to be eager to try something where you might be wrong.
+
+This isn’t unique to any one country. You can find it in Western systems too. But in a lot of places, the “don’t you dare mess up” conditioning is especially strong.
+
+That conditioning doesn’t just live in childhood. It sneaks into professional life in unconscious ways:
+
+- less willingness to experiment
+- more need for approval before acting
+- more “tell me exactly how to do it” and less “let me see what happens if…”
+
+I think that’s a tragic side effect, because so much of how we become effective is through doing and failing. Through having our _own_ mind make the connection.
+
+The mind doesn’t get “programmed” the way a computer does. You don’t write a function called `understand_AI_agents()` and then run it once and you’re done. Yes, you can influence and train your mind, and the programming metaphor can be useful in some contexts, but it breaks down here.
+
+The human mind is not a computer mind. It needs to **experience** things to really internalize them.
+
+Doing and experiencing is the fast way to learn something.
+
+## cap the downside, place the bet
+
+Of course, doing things involves risk. Sometimes you put skin in the game and lose a little.
+
+Maybe you spend a whole day on a thesis like:
+
+> “Maybe Cursor or this AI tool can help me solve a task that would normally take a week.”
+
+You try. You go all in for the day. And then you discover: nope, it doesn’t work the way you thought. You burned the day. You didn’t get anything else done.
+
+Ouch. A day is meaningful. That sucks.
+
+But that’s the **cost of experimentation**. You were placing a bet: one day for the possibility of saving four. That’s not a crazy trade. And even when the bet doesn’t work, you come away with _real knowledge_ about how the tool works (or doesn’t) for your particular use case.
+
+The key is that the downside has to be **capped** and **survivable**.
+
+- A doctor shouldn’t “just try” an untested procedure where the downside is a patient dying.
+- An engineer probably shouldn’t experiment directly in production with millions of users.
+
+But in many software contexts, the worst-case outcome is small and reversible: you lose a day, crash a dev environment, or have to restore from backup. Annoying? Yes. Fatal? No.
+
+A simple heuristic here:
+
+> If the worst-case outcome is survivable and reversible, it’s usually worth running the experiment.
+
+For things like “will this context window degrade?” or “will Cursor handle my big repo?” — just try it yourself. See how it works. That’s the best way to learn.
+
+Sure, I can tell you. But then it stays theoretical. When you personalize the experience, your learning becomes **integrated** into how you work, not just another piece of documentation in your brain.
+
+## you don’t have to understand it first
+
+So wherever you can—whether you’re figuring out your preferences or figuring out how to work best with AI tools—**try things**. Cap your downside. Run experiments.
+
+You’ll almost always learn more than you would by just theorizing.
+
+And I say this as someone who used to be a heavy theorizer, the person who needed to understand _everything_ before doing _anything_. I wouldn’t move until I had a model.
+
+That’s the fundamental shift I’m talking about here:
+
+> You don’t have to understand something in order to do it.  
+> But doing the thing very often opens up your understanding of it.
+
+![image](/posts/2025/11/2025.11.28.png)

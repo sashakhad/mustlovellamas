@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-char text-bone antialiased;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen bg-char font-sans text-body;
+  }
+
+  ::selection {
+    @apply bg-seed text-char;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-seed;
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+  }
+}
+
+@layer components {
+  .holo-ghost {
+    @apply animate-holo-flicker;
+  }
+
+  .holo-tear {
+    @apply animate-holo-tear;
+  }
+
+  .prose-holo {
+    @apply max-w-none text-body text-bone;
+  }
+
+  .prose-holo > * + * {
+    @apply mt-6;
+  }
+
+  .prose-holo a {
+    @apply text-seed underline decoration-pepper decoration-2 transition-colors duration-quick ease-out hover:decoration-seed;
+  }
+
+  .prose-holo strong {
+    @apply font-semibold text-bone;
+  }
+
+  .prose-holo em {
+    @apply text-bone;
+  }
+
+  .prose-holo ul,
+  .prose-holo ol {
+    @apply pl-6;
+  }
+
+  .prose-holo ul {
+    @apply list-[square] marker:text-pepper;
+  }
+
+  .prose-holo ol {
+    @apply list-decimal marker:font-mono marker:text-meta marker:text-pepper;
+  }
+
+  .prose-holo li + li {
+    @apply mt-2;
+  }
+
+  .prose-holo blockquote {
+    @apply border-l-2 border-seed pl-5 text-ash;
+  }
+
+  .prose-holo :not(pre) > code {
+    @apply rounded-hair bg-soot px-1.5 py-0.5 font-mono text-[0.88em] text-seed;
+  }
+
+  .prose-holo pre {
+    @apply overflow-x-auto border border-line p-4 font-mono text-meta;
+  }
+
+  .prose-holo pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .prose-holo h2,
+  .prose-holo h3,
+  .prose-holo h4 {
+    @apply mt-14 font-mono font-extrabold lowercase tracking-tight text-bone;
+  }
+
+  .prose-holo h2 {
+    @apply text-title;
+  }
+
+  .prose-holo h2::before {
+    @apply mr-2 text-pepper;
+    content: '##';
+  }
+
+  .prose-holo h3 {
+    @apply text-lg;
+  }
+
+  .prose-holo h2 + *,
+  .prose-holo h3 + *,
+  .prose-holo h4 + * {
+    @apply mt-4;
+  }
+
+  .prose-holo table {
+    @apply w-full border-collapse text-meta;
+  }
+
+  .prose-holo th {
+    @apply font-mono font-bold lowercase text-ash;
+  }
+
+  .prose-holo th,
+  .prose-holo td {
+    @apply border border-line px-3 py-2 text-left;
+  }
+
+  .prose-holo hr {
+    @apply my-14 border-0 text-center text-pepper;
+  }
+
+  .prose-holo hr::after {
+    @apply font-mono text-meta;
+    content: '~ ~ ~';
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-ghost,
+  .holo-tear {
+    animation: none;
+  }
+}
