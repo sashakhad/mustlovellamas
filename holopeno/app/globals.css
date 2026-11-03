@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: #0b0b0a;
+    color: #f2efe6;
+    color-scheme: dark;
+  }
+  ::selection {
+    background: #c6f432;
+    color: #0b0b0a;
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+}
+
+/* hologram flicker on the ñ tilde */
+.tilde-ghost {
+  transform: translate(1px, -1px);
+  opacity: 0.85;
+  animation: holo-flicker 4.2s steps(1, end) infinite;
+}
+
+@keyframes holo-flicker {
+  0%, 100% { transform: translate(1px, -1px); opacity: 0.85; }
+  47% { transform: translate(-1px, 1px); opacity: 0.4; }
+  49% { transform: translate(2px, 0); opacity: 1; }
+  51% { transform: translate(1px, -1px); opacity: 0.85; }
+  83% { opacity: 0.2; }
+  84% { opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilde-ghost {
+    animation: none;
+  }
+}
+
+@layer components {
+  .prose-holo {
+    @apply text-[1.0625rem] leading-8 text-bone;
+  }
+  .prose-holo p,
+  .prose-holo ul,
+  .prose-holo ol,
+  .prose-holo blockquote,
+  .prose-holo pre,
+  .prose-holo table {
+    @apply my-6;
+  }
+  .prose-holo a {
+    @apply text-seed underline decoration-pepper decoration-2 hover:decoration-seed;
+  }
+  .prose-holo h2 {
+    @apply mt-12 font-mono text-2xl font-extrabold tracking-tight;
+  }
+  .prose-holo h3 {
+    @apply mt-10 font-mono text-xl font-bold;
+  }
+  .prose-holo ul {
+    @apply list-[square] pl-6 marker:text-pepper;
+  }
+  .prose-holo ol {
+    @apply list-decimal pl-6 marker:text-pepper;
+  }
+  .prose-holo blockquote {
+    @apply border-l-2 border-seed pl-5 text-ash;
+  }
+  .prose-holo :not(pre) > code {
+    @apply rounded bg-soot px-1.5 py-0.5 font-mono text-[0.9em] text-seed;
+  }
+  .prose-holo pre {
+    @apply overflow-x-auto rounded-md border border-line p-4 font-mono text-sm leading-6;
+  }
+  .prose-holo hr {
+    @apply my-12 border-line;
+  }
+}
